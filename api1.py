@@ -78,7 +78,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
                     hashtagsSearchedFor.append(sortedResults[a][0])
                     relatedhashtag = sortedResults[a][0]
                     break
-                
+        hashtag_phrase = relatedhashtag        
         print(relatedhashtag)
                 
 
