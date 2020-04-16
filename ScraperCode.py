@@ -30,70 +30,111 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
         #write header row to spreadsheet
         
     
-    #k = 0
-    #hashtagsSearchedFor = [hashtag_phrase]
     
-    #while k < numberOfIterations: 
     fname = '_'.join(re.findall(r"#(\w+)", hashtag_phrase))
     with open(hashtag_phrase + '.csv', 'w',encoding ='utf-8') as file:
         w = csv.writer(file)
         w.writerow(['tweet_text', 'username', 'all_hashtags', 'followers_count','profile_link'])
         hashtags = {}
-        queries = 10
+        queries = 100
         List = []
         for i in range(queries):
             List.append([])
-##            print(List)
+
         
 
         #for each tweet matching our hashtags, write relevant info to the spreadsheet
         foundUsers = []
         foundHashtags = []
         foundFollowerCount = []
+        foundTweetText = []
         
 
-        for tweet in tweepy.Cursor(api.search, q=hashtag_phrase+' -filter:retweets', lang="en", tweet_mode='extended').items(5):
+        for tweet in tweepy.Cursor(api.search, q=hashtag_phrase+' -filter:retweets', lang="en", tweet_mode='extended').items(queries):
             
             foundUsers.append(tweet.user.screen_name)
             foundHashtags.append([e['text'] for e in tweet._json['entities']['hashtags']])
             foundFollowerCount.append(tweet.user.followers_count)
+            foundTweetText.append(tweet.full_text.replace('\n',' '))
+            
+            
+        
 
-        print(foundUsers)
-        print(foundHashtags)
-        print(foundFollowerCount)
+
 
         for k in range(len(foundUsers)):
             List[k].append(foundUsers[k])
             List[k].append(foundHashtags[k])
             List[k].append(foundFollowerCount[k])
+            List[k].append(foundTweetText[k])
         print(List)
+
+        results = {}
+    
+        for i in range(len(List)):
+            for j in range(len(List[i][1])):
             
-            
-##            i=+1
-##            
-##            
-##            
-##            List[i].append([e['text'] for e in tweet._json['entities']['hashtags']])
-##            List[i].append(tweet.user.screen_name)
-##            List[i].append(tweet.user.followers_count)
+                if List[i][1][j].lower() in results:
+                
+                
+                    results[List[i][1][j].lower()] += 1
+                
+                else:
+                
+                    results[List[i][1][j].lower()] = 1
+                
+                
+        sortedResults = sorted(results.items(),key=lambda x: x[1], reverse=True)
+        tooManyLists = []
+        anotherFlippinList = []
+        for ii in range(len(List)):
+            anotherFlippinList.append(0)
+        for a in range(len(sortedResults)):
+            tooManyLists.append(sortedResults[a][0])
+##        print(tooManyLists)
+                   
+                   
+    
+
+
+        filteredList = []
+        coolestFilterNumberEver = 0
+        for i in range(queries):
+            filteredList.append([])
+        
+        for i in range(len(List)):
+            for j in range(len(List[i][1])):
+                if List[i][1][j] in tooManyLists:
+                    
+                    anotherFlippinList[i] += 1
+                    
                     
                     
                 
-            #hashtags[hashtag_phrase] = List
+            if anotherFlippinList[i] >= (numberOfIterations+1):
+                filteredList.append(List[i])
+        print(filteredList)
+        filteredList[:] = [x for x in filteredList if x != []]
+        print(filteredList)
+
+        listTime = []
+        for jj in range(len(filteredList)):
+            if filteredList[jj][0] not in listTime:
+                listTime.append(filteredList[jj][0])
+                w.writerow([filteredList[jj][3], filteredList[jj][0], filteredList[jj][1], filteredList[jj][2],'twitter.com/'+filteredList[jj][0]])
+
+        
             
-##        print(List)
-##        results = {}
-##    
-##        for i in range(0, len(List), 3):
-##            for j in range(0, len(List[i]),3):
-##                for k in List[i][j]:
-##                    if k in results:
-##                        results[k] = results[k] + 1
-##                    else:
-##                        results[k] = 1
-##        sortedResults = sorted(results.items(),key=lambda x: x[1], reverse=True)
-##        for k in range(len(sortedResults)):
-##            numberOfRelatedHashtags = sortedResults
+
+         
+
+        
+                
+
+                    
+                    
+                
+
 ##            
 ##            
 ##
@@ -106,21 +147,30 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
 ##                foundUsers.append(tweet.user.screen_name.replace('b', '', 1).replace('\'',''))
                     #debug
                 #print(foundUsers)
+            
                     
 
 ##    results = {}
 ##    
-##    for i in range(0, len(List), 3):
-##        for j in List[i]:
-##            if j in results:
-##                results[j] = results[j] +1
+##    for i in range(len(List)):
+##        for j in range(len(List[i][1])):
+##            
+##            if List[i][1][j].lower() in results:
+##                
+##                
+##                results[List[i][1][j].lower()] += 1
+##                
 ##            else:
-##                results[j] = 1
+##                
+##                results[List[i][1][j].lower()] = 1
+##                
+##                
 ##    sortedResults = sorted(results.items(),key=lambda x: x[1], reverse=True)
     
+##    
     
 ##        debug
-##        print(results)
+##    print(results)
 ##       
 ##        
 ##        
@@ -128,7 +178,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
 ##        
 ##        
 ##        debug
-##        print(sortedResults)
+##    print(sortedResults)
 ##        debug
 ##        print(hashtagsSearchedFor)
 ##        
