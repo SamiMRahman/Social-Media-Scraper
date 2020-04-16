@@ -67,7 +67,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
             List[k].append(foundHashtags[k])
             List[k].append(foundFollowerCount[k])
             List[k].append(foundTweetText[k])
-        print(List)
+##        print(List)
 
         results = {}
     
@@ -113,9 +113,9 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
                 
             if anotherFlippinList[i] >= (numberOfIterations+1):
                 filteredList.append(List[i])
-        print(filteredList)
+##        print(filteredList)
         filteredList[:] = [x for x in filteredList if x != []]
-        print(filteredList)
+##        print(filteredList)
 
         listTime = []
         for jj in range(len(filteredList)):
@@ -221,6 +221,7 @@ anything = int(input('Number of Related Hashtags: '))
 def main():
 
     h = search_for_hashtags(consumer_key, consumer_secret, access_token, access_token_secret, hashtag_phrase, anything)
+    print("Done.")
     
     
 main()
