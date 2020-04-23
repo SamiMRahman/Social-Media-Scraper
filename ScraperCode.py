@@ -68,7 +68,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
             List[k].append(foundFollowerCount[k])
             List[k].append(foundTweetText[k])
         List[:] = [x for x in List if x != []]
-        print(List)
+        #print(List)
         results = {}
     
         for i in range(len(List)):
@@ -122,89 +122,7 @@ def search_for_hashtags(consumer_key, consumer_secret, access_token, access_toke
             if filteredList[jj][0] not in listTime:
                 listTime.append(filteredList[jj][0])
                 w.writerow([filteredList[jj][3], filteredList[jj][0], filteredList[jj][1], filteredList[jj][2],'twitter.com/'+filteredList[jj][0]])
-
-        
-            
-
-         
-
-        
-                
-
-                    
-                    
-                
-
-##            
-##            
-##
-##        
-##            
-##        for tweet in tweepy.Cursor(api.search, q=hashtag_phrase+' -filter:retweets', lang="en", tweet_mode='extended').items(3):
-##            if tweet.user.screen_name.replace('b', '', 1).replace('\'','') not in foundUsers and numberOfRelatedHashtags == k:
-##                
-##                w.writerow([tweet.full_text.replace('\n',' ').replace('b', '', 1), tweet.user.screen_name.replace('b', '', 1).replace('\'',''), [e['text'] for e in tweet._json['entities']['hashtags']], tweet.user.followers_count,'twitter.com/'+tweet.user.screen_name.replace('b', '', 1).replace('\'','')])
-##                foundUsers.append(tweet.user.screen_name.replace('b', '', 1).replace('\'',''))
-                    #debug
-                #print(foundUsers)
-            
-                    
-
-##    results = {}
-##    
-##    for i in range(len(List)):
-##        for j in range(len(List[i][1])):
-##            
-##            if List[i][1][j].lower() in results:
-##                
-##                
-##                results[List[i][1][j].lower()] += 1
-##                
-##            else:
-##                
-##                results[List[i][1][j].lower()] = 1
-##                
-##                
-##    sortedResults = sorted(results.items(),key=lambda x: x[1], reverse=True)
     
-##    
-    
-##        debug
-##    print(results)
-##       
-##        
-##        
-##
-##        
-##        
-##        debug
-##    print(sortedResults)
-##        debug
-##        print(hashtagsSearchedFor)
-##        
-##        if sortedResults[1][0].lower() not in hashtagsSearchedFor:
-##            hashtagsSearchedFor.append(sortedResults[1][0])
-##            relatedhashtag = sortedResults[1][0]
-##        else:
-##            for a in range(len(sortedResults)):
-##                if sortedResults[a][0].lower() in hashtagsSearchedFor:
-##                    continue
-##                else:
-##                    hashtagsSearchedFor.append(sortedResults[a][0])
-##                    relatedhashtag = sortedResults[a][0]
-##                    break
-##        hashtag_phrase = relatedhashtag
-##        debug
-##        print(relatedhashtag)
-                
-
-            
-            
-            
-        
-        
-        
-     
                     
             
     return list
